@@ -6,7 +6,13 @@
 package com.arpablue.abhttpclient;
 
 import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.HttpCookie;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,6 +23,7 @@ import java.net.http.*;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -78,44 +85,49 @@ public class HttpClientTest {
     }
 
     @Test
-    public void test_HTTP_POST_with_parameters() {
-        HttpClient httpClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_2)
-                .connectTimeout(Duration.ofSeconds(10))
-                .build();
-        // form parameters
-        Map<Object, Object> data = new HashMap<>();
-        data.put("username", "abc");
-        data.put("password", "123");
-        data.put("custom", "secret");
-        data.put("ts", System.currentTimeMillis());
+    public void test_HttpClinte_Cokkies() {
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(ofFormData(data))
-                .uri(URI.create("https://localhost/index.php"))
-                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .build();
-
-        HttpResponse<String> response = null;
-
-        try {
-
-            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(HttpClientTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            java.util.logging.Logger.getLogger(HttpClientTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // print status code
-        System.out.println(response.statusCode());
-
-        // print response body
-        System.out.println(response.body());
     }
-////    @Test
+
+//    @Test
+//    public void test_HTTP_POST_with_parameters() {
+//        HttpClient httpClient = HttpClient.newBuilder()
+//                .version(HttpClient.Version.HTTP_2)
+//                .connectTimeout(Duration.ofSeconds(10))
+//                .build();
+//        // form parameters
+//        Map<Object, Object> data = new HashMap<>();
+//        data.put("username", "abc");
+//        data.put("password", "123");
+//        data.put("custom", "secret");
+//        data.put("ts", System.currentTimeMillis());
+//
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .POST(ofFormData(data))
+//                .uri(URI.create("https://localhost/index.php"))
+//                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+//                .header("Content-Type", "application/x-www-form-urlencoded")
+//                .build();
+//
+//        HttpResponse<String> response = null;
+//
+//        try {
+//
+//            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//
+//        } catch (IOException ex) {
+//            java.util.logging.Logger.getLogger(HttpClientTest.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (InterruptedException ex) {
+//            java.util.logging.Logger.getLogger(HttpClientTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        // print status code
+//        System.out.println(response.statusCode());
+//
+//        // print response body
+//        System.out.println(response.body());
+//    }
+//    @Test
 //    public void test_HTTP_GET_implementation() {
 //        System.out.println("---------test_HTTP_GET_implementation");
 //        try {
@@ -140,7 +152,7 @@ public class HttpClientTest {
 //        }
 //    }
 //
-////    @Test
+//    @Test
 //    public void test_HTTP_AsyncGET_implementation() {
 //        System.out.println("---------test_HTTP_GET_implementation");
 //        try {
@@ -168,7 +180,7 @@ public class HttpClientTest {
 //        }
 //    }
 //
-////    @Test
+//    @Test
 //    public void test_HTTP_GET_withHeaders() {
 //        System.out.println("---------test_HTTP_GET_withHeaders");
 //        try {

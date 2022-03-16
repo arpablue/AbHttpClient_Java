@@ -9,7 +9,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+
 
 /**
  *
@@ -25,28 +26,46 @@ class AbHttpClientPOST extends AbHttpClientRequestDAO {
      */
     protected boolean postRequest(String uri) {
         try {
-            String json = this.getParamsJSON();
-
+            String json = null;
+            
             //HttpClient client = HttpClient.newHttpClient();
             HttpClient client = createClient();
             
-            HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(uri));
+            URI uriB = URI.create(uri);
+            this.setCookiesRequest( uriB );//--------------------------
+            HttpRequest.Builder builder = HttpRequest.newBuilder( uriB );
             
             if ( this.mData != null ) {
                 json = this.mData;
                //builder = builder.POST(HttpRequest.BodyPublishers.ofString(this.mParams));
             } 
             
-            builder = builder.POST(HttpRequest.BodyPublishers.ofString(json));
-            this.setRequestHeaders("Accept", "application/json");
-            this.setRequestHeaders("Content-type", "application/json");
+            if( json == null ){
+                if( !this.parametersExists() ){
+                    builder = builder.POST(HttpRequest.BodyPublishers.noBody() );
+                }else{
+                    byte[] data = this.getParamsForm().getBytes( StandardCharsets.UTF_8);
+                    this.setRequestHeaders("Content-type", "application/x-www-form-urlencoded");
+                    builder = builder.POST(HttpRequest.BodyPublishers.ofByteArray( data  ));
+                }
+            }else{
+                this.setRequestHeaders("Accept", "application/json");
+                this.setRequestHeaders("Content-type", "application/json");
+                builder = builder.POST(HttpRequest.BodyPublishers.ofString(json));
+            }
+            
             this.setHeadersRequest(builder);
-
+           
             HttpRequest request = builder.build();
 
             log("HTTP-POST request to: " + uri);
             
+            //this.applyCookies();
+            
+            
             this.mResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.getCookiesRequest();// <<----------------------------
+            
             return true;
         } catch (Exception e) {
             log("ERROR: Problems to send the POST http request. " + e.getMessage());

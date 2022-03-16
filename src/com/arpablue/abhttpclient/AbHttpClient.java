@@ -36,8 +36,11 @@ public class AbHttpClient extends AbHttpClientGET {
         String uri = this.getHost() + "/" + endPoint;
         this.mStatus = -1;
         this.mBody = null;
-        
-        uri = uri + this.getParamsForm();
+        String params = this.getParamsForm();
+        if( !params.isEmpty() ){
+            uri = uri + "?" + this.getParamsForm();
+        }
+        log("GET Request to "+uri);
         if (!getRequest(uri)) {
             return null;
         }
@@ -71,7 +74,7 @@ public class AbHttpClient extends AbHttpClientGET {
         String uri = this.getHost() + "/" + endPoint;
         this.mStatus = -1;
         this.mBody = null;
-
+        log("POST Request to "+uri);
         if (!postRequest(uri)) {
             return null;
         }
