@@ -58,7 +58,6 @@ class AbHttpClientResponseDAO extends AbHttpClientDAO{
      * then return -1
      * @return it the status code of the request.
      */
-    
     public int getStatusCode(){
         
         return this.mStatus;

@@ -5,28 +5,19 @@
  */
 package com.arpablue.abhttpclient;
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.CookieStore;
-import java.net.HttpCookie;
-import java.net.URI;
 
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.CookieStore;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 /**
  *
  * @author Augusto Flores
  */
-class AbHttpClientRequestDAO extends AbHttpClientFile {
+class AbHttpClientRequestDAO extends AbHttpClientRequestCookie {
 
     /**
      * It allow the redirection in the request.
@@ -41,10 +32,6 @@ class AbHttpClientRequestDAO extends AbHttpClientFile {
      * It contains the parameters used for the request.
      */
     protected Map<String, String> mParams;
-    /**
-     * It is the cookies of the current request.
-     */
-    protected Map<String, String> mCookies;
     /**
      * It is the user used for the authentication.
      */
@@ -267,76 +254,6 @@ class AbHttpClientRequestDAO extends AbHttpClientFile {
         }
 
     }
-
-    /**
-     * It apply the cokkies configuration to set the cookies values in the
-     * request.
-     *
-     * @param builder It is the builder with the cokies configuration.
-     * @return
-     */
-    protected boolean getCookiesRequest() {
-        boolean res = false;
-        this.mCookies = new HashMap<String, String>();
-        try {
-            if (this.getHost() == null) {
-                return res;
-            }
-            // Instantiate CookieManager;
-            // make sure to set CookiePolicy
-            CookieManager manager = new CookieManager();
-            manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-            CookieHandler.setDefault(manager);
-
-            // get content from URLConnection;
-            // cookies are set by web site
-            URL url = new URL(this.getHost());
-            URLConnection connection = url.openConnection();
-            connection.getContent();
-
-            // get cookies from underlying
-            // CookieStore
-            CookieStore cookieJar = manager.getCookieStore();
-            List<HttpCookie> cookies = cookieJar.getCookies();
-            for (HttpCookie cookie : cookies) {
-                mCookies.put(cookie.getName(), cookie.getValue());
-            }
-            res = true;
-        } catch (Exception e) {
-            log("ERROR: " + e.getMessage());
-
-        } finally {
-            return res;
-        }
-    }
-    /**
-     * It returnt he current pf the request.
-     * @return It is the cookies of the request.
-     */
-    public Map<String, String> getCookies() {
-        return this.mCookies;
-    }
-
-    public void setCookiesRequest( URI uri) {
-        try {
-            // instantiate CookieManager
-            CookieManager manager = new CookieManager();
-            CookieHandler.setDefault(manager);
-            CookieStore cookieJar = manager.getCookieStore();
-
-            // create cookie
-            HttpCookie cookie = new HttpCookie("anotherField", "John Doe");
-
-            // add cookie to CookieStore for a
-            // particular URL
-            URL url = new URL( this.getHost() );
-            cookieJar.add( url.toURI(), cookie);
-            
-        } catch (Exception e) {
-            
-            e.printStackTrace();
-        }
-    }
     /**
      * It create the client with all necessary settings for the request. If a
      * problem exists in the moment to create the builder then return null.
@@ -349,16 +266,16 @@ class AbHttpClientRequestDAO extends AbHttpClientFile {
         HttpClient.Builder builder = null;
         try {
             builder = HttpClient.newBuilder();
+            
             builder = this.applyRedirect(builder);
             builder = this.applyAuthorization(builder);
-
+            builder = builder.cookieHandler( getCookieManager() );
             client = builder.build();
         } catch (Exception e) {
             log("ERROR: " + e.getMessage());
         } finally {
             return client;
         }
-
     }
 
 }

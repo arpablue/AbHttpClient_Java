@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/prj/java/AbHttpClient_Java/src/com/arpablue/abhttpclient/AbHttpClientRequestCookie.java</file>
             <file>file:/E:/prj/java/AbHttpClient_Java/test/com/arpablue/abhttpclient/AbHttpClientTest.java</file>
             <file>file:/E:/prj/java/AbHttpClient_Java/src/com/arpablue/abhttpclient/AbHttpClientPOST.java</file>
             <file>file:/E:/prj/java/AbHttpClient_Java/src/com/arpablue/abhttpclient/AbHttpClient.java</file>
-            <file>file:/E:/prj/java/AbHttpClient_Java/src/com/arpablue/abhttpclient/AbHttpClientResponse.java</file>
             <file>file:/E:/prj/java/AbHttpClient_Java/src/com/arpablue/abhttpclient/AbHttpClientRequestDAO.java</file>
         </group>
     </open-files>

@@ -18,13 +18,11 @@ import java.util.Map;
  *
  * @author Augusto Flores
  */
-public class AbHttpClientTest {
+public class AbHttpClient_POST_Test {
 
     protected static Logger LOG = new Logger();
 
-    public AbHttpClientTest() {
-        java.net.CookieManager cm = new java.net.CookieManager();
-        java.net.CookieHandler.setDefault(cm);
+    public AbHttpClient_POST_Test() {
     }
 
     @BeforeClass
@@ -59,7 +57,7 @@ public class AbHttpClientTest {
         System.out.println("                 --------------------------------------------------");
         System.out.println("                 --------------------Body-----------------------");
         System.out.println("                        "+body);
-        printData( "Cookies",instance.getCookies());
+        printData( "Cookies Response",instance.getCookies());
         System.out.println("");
         
     }
@@ -87,7 +85,7 @@ public class AbHttpClientTest {
         System.out.println("---------test_AbHttpClient_SimpleGet");
         int expCode = 200;
         AbHttpClient instance = new AbHttpClient();
-        instance.setLog( AbHttpClientTest.LOG );
+        instance.setLog(AbHttpClient_POST_Test.LOG );
 
         instance.setHost(HOST );
 
@@ -113,7 +111,7 @@ public class AbHttpClientTest {
         int expCode = 200;
         String expStr ="{\"method\":\"GET\",\"time\":\"2022-03-05 04:56:38\",\"parameters\":{\"name\":\"Alan\",\"age\":\"18\",\"username\":\"alan_0\",\"lastname\":\"Prove\"}}";
         AbHttpClient instance = new AbHttpClient();
-        instance.setLog( AbHttpClientTest.LOG );
+        instance.setLog(AbHttpClient_POST_Test.LOG );
 
         instance.setHost(HOST );
         //Adding parameters
@@ -151,7 +149,7 @@ public class AbHttpClientTest {
     /**
      * Test of get method, of class AbHttpClient.
      */
-    @Test
+    //@Test
     public void test_AbHttpClient_SimplePOST() {
         System.out.println("---------test_AbHttpClient_SimplePOST");
         int expCode = 201;
@@ -166,7 +164,44 @@ public class AbHttpClientTest {
                       """;
         instance.setData( data );
         
+        // Sending the post
         String result = instance.post(END_POINT);
+        
+
+        Map<String, String> headers = instance.getResponseHeaders();
+        List<String> list = null;
+        if(  headers  == null ){
+            fail("The header of the response is NULL.");
+        }
+        if( headers.size() < 1){
+            fail("No headers faound in the response.");
+        }
+
+        printData(instance);
+
+        int code = instance.getStatusCode();
+        if( code != expCode ){
+            fail("The status code is ["+code+"] when should be ["+expCode+"]");
+        }
+        
+    }
+    /**
+     * Test of get method, of class AbHttpClient.
+     */
+    @Test
+    public void test_AbHttpClient_POST_addCookies() {
+        System.out.println("---------test_AbHttpClient_POST_addCookies");
+        int expCode = 201;
+        AbHttpClient instance = new AbHttpClient();
+        instance.setLog(LOG);
+        instance.setHost(HOST );
+       
+        // Adding cookies
+        instance.addCookie("hero", "Spiderman");
+        instance.addCookie("girlfriend", "Mary Jane");
+        // Sending the post
+        String result = instance.post(END_POINT);
+        
 
         Map<String, String> headers = instance.getResponseHeaders();
         List<String> list = null;
@@ -240,7 +275,7 @@ public class AbHttpClientTest {
             fail("The header of the response is NULL.");
         }
         if( headers.size() < 1){
-            fail("No headers faound in the response.");
+            fail("No headers found in the response.");
         }
 
         printData(target);

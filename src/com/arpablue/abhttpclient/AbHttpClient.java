@@ -51,7 +51,6 @@ public class AbHttpClient extends AbHttpClientGET {
         this.loadResponseHeaders();
         return this.getResponseBody();
     }
-
     /**
      * It execute a HTTP POST request.
      *
@@ -74,6 +73,7 @@ public class AbHttpClient extends AbHttpClientGET {
         String uri = this.getHost() + "/" + endPoint;
         this.mStatus = -1;
         this.mBody = null;
+        
         log("POST Request to "+uri);
         if (!postRequest(uri)) {
             return null;
@@ -83,6 +83,7 @@ public class AbHttpClient extends AbHttpClientGET {
             this.mBody = this.mResponse.body();
         }
         this.loadResponseHeaders();
+        this.loadCookiesResponse();
         return this.getResponseBody();
     }
 

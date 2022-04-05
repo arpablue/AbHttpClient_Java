@@ -6,6 +6,8 @@
 package com.arpablue.abhttpclient;
 
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -30,10 +32,12 @@ class AbHttpClientPOST extends AbHttpClientRequestDAO {
             
             //HttpClient client = HttpClient.newHttpClient();
             HttpClient client = createClient();
-            
+
             URI uriB = URI.create(uri);
-            this.setCookiesRequest( uriB );//--------------------------
+            
+            
             HttpRequest.Builder builder = HttpRequest.newBuilder( uriB );
+            
             
             if ( this.mData != null ) {
                 json = this.mData;
@@ -53,18 +57,15 @@ class AbHttpClientPOST extends AbHttpClientRequestDAO {
                 this.setRequestHeaders("Content-type", "application/json");
                 builder = builder.POST(HttpRequest.BodyPublishers.ofString(json));
             }
-            
             this.setHeadersRequest(builder);
            
             HttpRequest request = builder.build();
-
-            log("HTTP-POST request to: " + uri);
             
-            //this.applyCookies();
+            
+            log("HTTP-POST request to: " + uri);
             
             
             this.mResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            this.getCookiesRequest();// <<----------------------------
             
             return true;
         } catch (Exception e) {
