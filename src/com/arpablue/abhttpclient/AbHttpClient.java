@@ -40,15 +40,11 @@ public class AbHttpClient extends AbHttpClientGET {
         if( !params.isEmpty() ){
             uri = uri + "?" + this.getParamsForm();
         }
-        log("GET Request to "+uri);
+       log("HTTP-GET request to: " + uri);
         if (!getRequest(uri)) {
             return null;
         }
-        if (this.mResponse != null) {
-            this.mStatus = this.mResponse.statusCode();
-            this.mBody = this.mResponse.body();
-        }
-        this.loadResponseHeaders();
+        afterRequest();
         return this.getResponseBody();
     }
     /**
@@ -74,17 +70,25 @@ public class AbHttpClient extends AbHttpClientGET {
         this.mStatus = -1;
         this.mBody = null;
         
-        log("POST Request to "+uri);
+        log("HTTP-POST request to: " + uri);
+
         if (!postRequest(uri)) {
             return null;
         }
+        afterRequest();
+        return this.getResponseBody();
+    }
+    /**
+     * Thes are the action executed after the request.
+     */
+    protected void afterRequest(){
         if (this.mResponse != null) {
             this.mStatus = this.mResponse.statusCode();
             this.mBody = this.mResponse.body();
         }
         this.loadResponseHeaders();
         this.loadCookiesResponse();
-        return this.getResponseBody();
+        
     }
 
 }

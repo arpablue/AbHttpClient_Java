@@ -6,7 +6,7 @@
 package com.arpablue.abhttpclient;
 
 
-import java.net.CookieStore;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -269,7 +269,7 @@ class AbHttpClientRequestDAO extends AbHttpClientRequestCookie {
             
             builder = this.applyRedirect(builder);
             builder = this.applyAuthorization(builder);
-            builder = builder.cookieHandler( getCookieManager() );
+            builder = this.applyCookies(builder);
             client = builder.build();
         } catch (Exception e) {
             log("ERROR: " + e.getMessage());

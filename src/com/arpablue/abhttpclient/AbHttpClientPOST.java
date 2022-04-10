@@ -19,7 +19,31 @@ import java.nio.charset.StandardCharsets;
  * @author Augusto Flores
  */
 class AbHttpClientPOST extends AbHttpClientRequestDAO {
-
+    /**
+     * It is the tcode used to specified the PUT request.
+     */
+    protected final static byte REQUEST_PUT = 1;
+    /**
+     * It is the tcode used to specified the PUT request.
+     */
+    protected final static byte REQUEST_POST = 2;
+    /**
+     * It is the tcode used to specified the PUT request.
+     */
+    protected final static byte REQUEST_PATCH = 4;
+    /**
+     * It is the tcode used to specified the PUT request.
+     */
+    protected final static byte REQUEST_DELETE = 5;
+    /**
+     * It execute a specified request to the uri specified.
+     * @param requestType it is teh request type.
+     * @param uri It i sthe uri to do the request.
+     * @return It is true if the request has been executed without problem.
+     */
+    public boolean request(int requestType, String uri  ){
+        return true;
+    }
     /**
      * It execute hte Http POST request
      *
@@ -30,20 +54,12 @@ class AbHttpClientPOST extends AbHttpClientRequestDAO {
         try {
             String json = null;
             
-            //HttpClient client = HttpClient.newHttpClient();
             HttpClient client = createClient();
-
             URI uriB = URI.create(uri);
-            
-            
             HttpRequest.Builder builder = HttpRequest.newBuilder( uriB );
-            
-            
             if ( this.mData != null ) {
                 json = this.mData;
-               //builder = builder.POST(HttpRequest.BodyPublishers.ofString(this.mParams));
             } 
-            
             if( json == null ){
                 if( !this.parametersExists() ){
                     builder = builder.POST(HttpRequest.BodyPublishers.noBody() );
@@ -62,10 +78,12 @@ class AbHttpClientPOST extends AbHttpClientRequestDAO {
             HttpRequest request = builder.build();
             
             
-            log("HTTP-POST request to: " + uri);
-            
-            
             this.mResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            this.mStatus = this.mResponse.statusCode();
+            if (this.mResponse != null) {
+                this.mBody = this.mResponse.body();
+            }
             
             return true;
         } catch (Exception e) {

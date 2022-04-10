@@ -5,10 +5,32 @@
  */
 package com.arpablue.abhttpclient;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+
 /**
  *
  * @author Augusto Flores
  */
-public class AbHttpClient_PUT_Test {
+public class AbHttpClient_PUT_Test extends AbHttpClient_RequestDAO {
+    public AbHttpClient_PUT_Test() {}
+
+    @BeforeClass
+    public static void setUpClass() {
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+    }
+
+    @Before
+    public void setUp() {
+    }
+
+    @After
+    public void tearDown() {
+    }
     
 }

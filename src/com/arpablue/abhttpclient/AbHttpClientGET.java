@@ -26,12 +26,9 @@ class AbHttpClientGET extends AbHttpClientPOST {
     protected boolean getRequest(String uri) {
         this.mStatus = -1;
         try {
-            log("HTTP-GET request to: " + uri);
-            //HttpClient client = HttpClient.newHttpClient();
             HttpClient client = createClient();
-
             HttpRequest.Builder builder = HttpRequest.newBuilder(
-                    URI.create( uri )
+                    URI.create(uri)
             );
 
             builder = builder.GET();
@@ -40,7 +37,7 @@ class AbHttpClientGET extends AbHttpClientPOST {
 
             //---- send the request
             this.mResponse = client.send(
-                    request, 
+                    request,
                     HttpResponse.BodyHandlers.ofString()
             );
 
@@ -48,12 +45,11 @@ class AbHttpClientGET extends AbHttpClientPOST {
             if (this.mResponse != null) {
                 this.mBody = this.mResponse.body();
             }
-
-            return true;
         } catch (Exception e) {
             this.log("HTTP-GET ERROR:  " + e.getMessage());
+            return false;
         }
-        return false;
+        return true;
     }
 
 }

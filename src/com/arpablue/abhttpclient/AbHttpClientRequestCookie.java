@@ -54,6 +54,15 @@ class AbHttpClientRequestCookie extends AbHttpClientFile {
         return mHostURI;
     }
     /**
+     * It apply the cookies manager to the request.
+     * @param builder It is the builder to be used
+     * @return It is the builder with the cokkies configutration.
+     */
+    protected HttpClient.Builder applyCookies( HttpClient.Builder builder ){
+        builder = builder.cookieHandler( getCookieManager() );
+        return builder;
+    }
+    /**
      * It returnthe current Cookie Manager.
      * @return It returtn the current CookieManager.
      */

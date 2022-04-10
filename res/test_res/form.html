@@ -1,0 +1,235 @@
+<!--
+Owner: Augusto Flores <
+
+This page is
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request sender</title>
+
+</head>
+<script type="text/javascript">
+    function sendJSON(){
+
+        let name = document.querySelector('#name2');
+        let lastname = document.querySelector('#lastname2');
+        let gender = document.querySelector('#gender2');
+        let country = document.querySelector('#country2');
+
+        if( !gender.checked ){
+            country = document.querySelector('#country1');
+        }
+        // Creating a XHR object
+        let xhr = new XMLHttpRequest();
+        let url = "index.php";
+
+        // open a connection
+        xhr.open("POST", url, true);
+
+        // Set the request header i.e. which type of content you are sending
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Create a state change callback
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+
+                // Print received data from server
+                this.innerHTML = this.responseText;
+
+            }
+        };
+
+        // Converting JSON data to string
+        var data = JSON.stringify({
+            "name": name.value,
+            "lasrname": lastname.value,
+            "gender" : gender.value,
+            "country": country.value
+        });
+        xhr.onload = function () {
+            /*
+            if (xhr.status != 200) { // analyze HTTP status of the response
+                alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+            } else { // show the result
+                alert(`Done, got ${xhr.response.length} bytes`); // response is the server response
+            }
+            */
+
+            document.getElementById("view").innerHTML = "Status: "+this.status+"\n"+"Ready Status: "+this.getReadyStatus+"\n"+this.responseText;
+        }
+
+        // Sending data with the request
+        xhr.send(data);
+    }
+</script>
+<body>
+<table border="1px">
+    <tbody>
+    <tr>
+        <td>
+            <div>
+                <strong>GET resquest Request</strong>
+                <p>
+                  Please introduce data and press send button to send the form data.
+                </p>
+                <div>
+                    <form method="get" action="index.php" enctype="multipart/form-data" target="result">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>Name:</td>
+                                <td><input type="text" name="name" id="name1" placeholder="Introduce a text field" value="Alan" /></td>
+                            </tr>
+                            <tr>
+                                <td>LastName:</td>
+                                <td><input type="text" name="name" id="lastname1" placeholder="Introduce a text field" value="Woods" /></td>
+                            </tr>
+                            <tr>
+                                <td>Gender:</td>
+                                <td>
+                                    <input type="radio" name="gender" id="gender1" value="Male" />Male </br>
+                                    <input type="radio" name="gender" id="gender2" value="Female" checked/>Female
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Country</td>
+                                <td>
+                                    <select id="country1" name="country">
+                                        <option value="Albania">Albania</option>
+                                        <option value="Bolivia" selected>Bolivia</option>
+                                        <option value="Costa Rica">Costa Rica</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <input type="submit" value="send" />
+                    </form>
+                </div>
+    </div>
+        </td>
+        <td>
+            <div>
+                <strong>POST resquest Request</strong>
+                <p>
+                    Please introduce data and press send button to send the form data.
+                </p>
+                <div>
+                    <form method="post" action="index.php" enctype="multipart/form-data" target="result">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>Name:</td>
+                                <td><input type="text" name="name" id="name2" placeholder="Introduce a text field" value="Alan" /></td>
+
+                            </tr>
+                            <tr>
+                                <td>LastName:</td>
+                                <td><input type="text" name="name" id="lastname2" placeholder="Introduce a text field" value="Woods" /></td>
+                            </tr>
+                            <tr>
+                                <td>Gender:</td>
+                                <td>
+                                    <input type="radio" name="gender" id="gender3" value="Male" />Male </br>
+                                    <input type="radio" name="gender" id="gender4" value="Female" checked/>Female
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Country</td>
+                                <td>
+                                    <select id="country2" name="country">
+                                        <option value="Albania">Albania</option>
+                                        <option value="Bolivia" selected>Bolivia</option>
+                                        <option value="Costaa Rica">Costa Rica</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <input type="button" value="send as JSON"  id="sendJSON"/>
+                        <input type="submit" value="Normal send"/>
+
+                    </form>
+                </div>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                <strong>POST resquest Request for LOGIN and LOGOUT</strong>
+                <p>
+                    Please introduce data and press send button to send the form data.
+                </p>
+                <div>
+                    <form method="post" action="index.php" enctype="multipart/form-data" target="result">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>Username:</td>
+                                <td><input type="text" name="user" id="user3" placeholder="Introduce a text field" value="alan0" /></td>
+
+                            </tr>
+                            <tr>
+                                <td>Password:</td>
+                                <td><input type="text" name="pwd" id="pwd3" placeholder="Introduce a text field" value="pwd0" /></td>
+
+                            </tr>
+                            <tr>
+                                <td>Name:</td>
+                                <td><input type="text" name="name" id="name3" placeholder="Introduce a text field" value="Alan" /></td>
+
+                            </tr>
+                            <tr>
+                                <td>LastName:</td>
+                                <td><input type="text" name="name" id="lastname3" placeholder="Introduce a text field" value="Woods" /></td>
+                            </tr>
+                            <tr>
+                                <td>Gender:</td>
+                                <td>
+                                    <input type="radio" name="gender" id="gender5" value="Male" />Male </br>
+                                    <input type="radio" name="gender" id="gender6" value="Female" checked/>Female
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Country</td>
+                                <td>
+                                    <select id="country3" name="country">
+                                        <option value="Albania">Albania</option>
+                                        <option value="Bolivia" selected>Bolivia</option>
+                                        <option value="Costaa Rica">Costa Rica</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <input type="submit" id="login" name="sesion" value="login" text="Log In" />
+                        <input type="submit" id="logout" name="session" value="logout" text="Log Out"/>
+
+                    </form>
+                </div>
+            </div>
+        </td>
+        <td>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+    <div style="border: 1px solid blue; margin-top: 10px; margin-bottom: 10px;">
+        <div id="view" name="view"> </div>
+    </div>
+    <div>
+        <iframe id="result" name="result" width="100%" height="300px" style="border:1px solid black;"></iframe>
+
+    </div>
+</body>
+<script type="text/javascript">
+    const btn = document.querySelector('#sendJSON');
+    btn.addEventListener("click",sendJSON);
+</script>
+</html>
