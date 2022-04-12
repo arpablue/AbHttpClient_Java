@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author Augusto Flores
  */
-class AbHttpClientRequestCookie extends AbHttpClientFile {
+class AbHttpClientRequestCookie extends AbHttpClientAuthorization {
     /**
      * It is the cookies of the current request.
      */
@@ -58,7 +58,8 @@ class AbHttpClientRequestCookie extends AbHttpClientFile {
      * @param builder It is the builder to be used
      * @return It is the builder with the cokkies configutration.
      */
-    protected HttpClient.Builder applyCookies( HttpClient.Builder builder ){
+    protected HttpClient.Builder applySettings( HttpClient.Builder builder ){
+        builder = super.applySettings(builder);
         builder = builder.cookieHandler( getCookieManager() );
         return builder;
     }

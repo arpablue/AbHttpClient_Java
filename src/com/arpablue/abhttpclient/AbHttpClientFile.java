@@ -16,11 +16,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 /**
- *
+ * It contians the implementation of the method to download or manage files inthe server.
  * @author Augusto Flores
  */
 class AbHttpClientFile extends AbHttpClientResponse {
-
+    /**
+     * It delete a file in the server.
+     * @param filePath It is the path of the file.
+     * @return It i strue if the file has been deleted wityhout problems.
+     */
     protected static boolean deleteFile(String filePath){
         try{
             if( filePath == null ) {
@@ -43,6 +47,12 @@ class AbHttpClientFile extends AbHttpClientResponse {
         }
         return false;
     }
+    /**
+     * It download a file from specified url.
+     * @param remoteFileName Ti is the url fo teh file.
+     * @param localFileName It is the local name of the file.
+     * @return TI is true if the file has been downloaded without problems.
+     */
     public boolean downLoad(String remoteFileName, String localFileName) {
         try {
             if( !deleteFile(localFileName) ){

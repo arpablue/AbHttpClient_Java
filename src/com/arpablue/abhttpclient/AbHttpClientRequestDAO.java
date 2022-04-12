@@ -32,14 +32,6 @@ class AbHttpClientRequestDAO extends AbHttpClientRequestCookie {
      * It contains the parameters used for the request.
      */
     protected Map<String, String> mParams;
-    /**
-     * It is the user used for the authentication.
-     */
-    private String mAuthUser;
-    /**
-     * It is the password used for the authentication.
-     */
-    private String mAuthPwd;
 
     /**
      * It specify the if the connection allow redirect
@@ -50,16 +42,6 @@ class AbHttpClientRequestDAO extends AbHttpClientRequestCookie {
         this.mAllowRedirect = redirect;
     }
 
-    /**
-     * It specify the credentials used for the authorization.
-     *
-     * @param user It is the user used for the authentication.
-     * @param password It i sthe password used for the authentication.
-     */
-    public void setAuthiorization(String user, String password) {
-        this.mAuthUser = user;
-        this.mAuthPwd = password;
-    }
 
     /**
      * It return if the redirection is allowed.
@@ -221,8 +203,10 @@ class AbHttpClientRequestDAO extends AbHttpClientRequestCookie {
      * @param builder it is the builder to apply the configuration.
      * @return returnthe builder witn the redirect.
      */
-    protected HttpClient.Builder applyRedirect(HttpClient.Builder builder) {
+    protected HttpClient.Builder applySettings(HttpClient.Builder builder) {
         try {
+            builder = super.applySettings(builder);
+            
             if (this.isAllowRedirect()) {
                 builder = builder.followRedirects(
                         HttpClient.Redirect.ALWAYS
@@ -236,25 +220,6 @@ class AbHttpClientRequestDAO extends AbHttpClientRequestCookie {
     }
 
     /**
-     * this apply the authentication to the request.
-     *
-     * @param builderit is the builder tro apply the authentication.
-     * @return it is the builder with the authentication
-     */
-    protected HttpClient.Builder applyAuthorization(HttpClient.Builder builder) {
-        try {
-            if (this.mAuthUser != null) {
-                AbHttpAuthenticator auth = new AbHttpAuthenticator(this.mAuthUser, this.mAuthPwd);
-                builder = builder.authenticator(auth);
-            }
-        } catch (Exception e) {
-            log("ERROR: " + e.getMessage());
-        } finally {
-            return builder;
-        }
-
-    }
-    /**
      * It create the client with all necessary settings for the request. If a
      * problem exists in the moment to create the builder then return null.
      *
@@ -267,9 +232,8 @@ class AbHttpClientRequestDAO extends AbHttpClientRequestCookie {
         try {
             builder = HttpClient.newBuilder();
             
-            builder = this.applyRedirect(builder);
-            builder = this.applyAuthorization(builder);
-            builder = this.applyCookies(builder);
+            
+            builder = this.applySettings(builder);
             client = builder.build();
         } catch (Exception e) {
             log("ERROR: " + e.getMessage());
