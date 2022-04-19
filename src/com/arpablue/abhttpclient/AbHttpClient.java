@@ -9,7 +9,7 @@ package com.arpablue.abhttpclient;
  *
  * @author Augusto Flores
  */
-public class AbHttpClient extends AbHttpClientGET {
+public class AbHttpClient extends AbHttpClientRequest {
 
     /**
      * Default constructor.
@@ -55,6 +55,15 @@ public class AbHttpClient extends AbHttpClientGET {
      * @return It is the response body of the request.
      */
     public String post(String endPoint) {
+        return doRequest( AbHttpClientRequest.REQUEST_POST , endPoint);
+   }
+    /**
+     * This execute an update HTTP request to a endpoint
+     * @param requestType 
+     * @param endPoint
+     * @return 
+     */
+    protected String doRequest( int requestType, String endPoint){
         clearResponseData();
         if (endPoint == null) {
             endPoint = "";
@@ -72,11 +81,12 @@ public class AbHttpClient extends AbHttpClientGET {
         
         log("HTTP-POST request to: " + uri);
 
-        if (!postRequest(uri)) {
+        if (!request( AbHttpClientRequest.REQUEST_POST ,uri)) {
             return null;
         }
         afterRequest();
         return this.getResponseBody();
+        
     }
     /**
      * Thes are the action executed after the request.
