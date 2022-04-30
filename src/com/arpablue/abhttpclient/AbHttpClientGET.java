@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
  *
  * @author Augusto Flores
  */
-class AbHttpClientGET extends AbHttpClientPOST {
+class AbHttpClientGET extends AbHttpClientDELETE {
 
     /**
      * It execute a single GET request.

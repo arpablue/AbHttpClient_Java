@@ -29,14 +29,12 @@ public class AbHttpClientRequest extends AbHttpClientGET {
      */
     protected static final int REQUEST_POST = 2;
     /**
-     * It is the content to identify the PATCH REQUEST.
-     */
-    protected static final int REQUEST_PATCH = 3;
-    /**
      * It is the content to identify the DELETE REQUEST.
      */
-    protected static final int REQUEST_DELETE = 4;
-    
+    protected static final int REQUEST_DELETE = 3;
+    public static final String getRequestName(int requestType){
+        
+    }
     /**
      * It execute a specified request to the uri specified.
      *
@@ -55,9 +53,12 @@ public class AbHttpClientRequest extends AbHttpClientGET {
                 if (!this.parametersExists()) {
                     builder = requestNoBody( requestType, builder );
                 } else {
+                    this.setRequestHeaders("Content-type", "application/x-www-form-urlencoded");
                     builder = requestFormData( requestType, builder );
                 }
             } else {
+                    this.setRequestHeaders("Accept", "application/json");
+                    this.setRequestHeaders("Content-type", "application/json");
                     builder = requestJsonData( requestType, builder );
             }
             //------------------------------
@@ -79,7 +80,6 @@ public class AbHttpClientRequest extends AbHttpClientGET {
         return false;
         
     }
-
     /**
      * It made a request without a body.
      * @param request It is the kind of request.
@@ -87,8 +87,16 @@ public class AbHttpClientRequest extends AbHttpClientGET {
      * @return It is the new builder with the request created
      */
     protected HttpRequest.Builder requestNoBody( int request, HttpRequest.Builder builder ) {
-        if( request == AbHttpClientRequest.REQUEST_POST ){
-            builder = this.requestPOSTNoBody(builder);
+        switch( request ){
+            case AbHttpClientRequest.REQUEST_POST :
+                builder = this.requestPOSTNoBody(builder);
+                break;
+            case AbHttpClientRequest.REQUEST_PUT:
+                builder = this.requestPUTNoBody(builder);
+                break;
+            case AbHttpClientRequest.REQUEST_DELETE:
+                builder = this.requestDELETENoBody(builder);
+                break;
         }
         return builder;
     }
@@ -99,8 +107,16 @@ public class AbHttpClientRequest extends AbHttpClientGET {
      * @return It is the new builder with the request created
      */
     protected HttpRequest.Builder requestFormData( int request, HttpRequest.Builder builder ) {
-        if( request == AbHttpClientRequest.REQUEST_POST ){
-            builder = this.requestPOSTFormData(builder);
+        switch( request ){
+            case AbHttpClientRequest.REQUEST_POST :
+                builder = this.requestPOSTFormData(builder);
+                break;
+            case AbHttpClientRequest.REQUEST_PUT:
+                builder = this.requestPUTFormData(builder);
+                break;
+            case AbHttpClientRequest.REQUEST_DELETE:
+                builder = this.requestDELETEFormData(builder);
+                break;
         }
         return builder;
     }
@@ -111,8 +127,16 @@ public class AbHttpClientRequest extends AbHttpClientGET {
      * @return It is the new builder with the request created
      */
     protected HttpRequest.Builder requestJsonData( int request, HttpRequest.Builder builder ) {
-        if( request == AbHttpClientRequest.REQUEST_POST ){
-            builder = this.requestPOSTJsonData(builder);
+        switch( request ){
+            case AbHttpClientRequest.REQUEST_POST :
+                builder = this.requestPOSTJsonData(builder);
+                break;
+            case AbHttpClientRequest.REQUEST_PUT:
+                builder = this.requestPUTJsonData(builder);
+                break;
+            case AbHttpClientRequest.REQUEST_DELETE:
+                builder = this.requestDELETEJsonData(builder);
+                break;
         }
         return builder;
     }

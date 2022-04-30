@@ -40,7 +40,7 @@ public class AbHttpClient extends AbHttpClientRequest {
         if( !params.isEmpty() ){
             uri = uri + "?" + this.getParamsForm();
         }
-       log("HTTP-GET request to: " + uri);
+       log("HTTP GET request to: " + uri);
         if (!getRequest(uri)) {
             return null;
         }
@@ -58,10 +58,30 @@ public class AbHttpClient extends AbHttpClientRequest {
         return doRequest( AbHttpClientRequest.REQUEST_POST , endPoint);
    }
     /**
+     * It execute a HTTP POST request.
+     *
+     * @param endPoint It is the enpoint of the host to execute the HTTP POST
+     * request.
+     * @return It is the response body of the request.
+     */
+    public String put(String endPoint) {
+        return doRequest( AbHttpClientRequest.REQUEST_PUT , endPoint);
+   }
+    /**
+     * It execute a HTTP POST request.
+     *
+     * @param endPoint It is the enpoint of the host to execute the HTTP POST
+     * request.
+     * @return It is the response body of the request.
+     */
+    public String delete(String endPoint) {
+        return doRequest( AbHttpClientRequest.REQUEST_DELETE , endPoint);
+   }
+    /**
      * This execute an update HTTP request to a endpoint
-     * @param requestType 
-     * @param endPoint
-     * @return 
+     * @param requestType It is the request type
+     * @param endPoint It is the enfpoint to do the request
+     * @return It is the response of therequest.
      */
     protected String doRequest( int requestType, String endPoint){
         clearResponseData();
@@ -79,7 +99,7 @@ public class AbHttpClient extends AbHttpClientRequest {
         this.mStatus = -1;
         this.mBody = null;
         
-        log("HTTP-POST request to: " + uri);
+        log("HTTP request to: " + uri);
 
         if (!request( AbHttpClientRequest.REQUEST_POST ,uri)) {
             return null;
