@@ -32,8 +32,24 @@ public class AbHttpClientRequest extends AbHttpClientGET {
      * It is the content to identify the DELETE REQUEST.
      */
     protected static final int REQUEST_DELETE = 3;
+    /**
+     * According a number it return the request type associate to the number or code, if the code 
+     * has not a name or not exists then the name is returned as unknow.
+     * @param requestType This the code associated to the request type.
+     * @return It is the name of the request type-
+     */
     public static final String getRequestName(int requestType){
-        
+        switch( requestType ){
+            case AbHttpClientRequest.REQUEST_GET:
+                return "GET";
+            case AbHttpClientRequest.REQUEST_PUT:
+                return "PUT";
+            case AbHttpClientRequest.REQUEST_POST:
+                return "POST";
+            case AbHttpClientRequest.REQUEST_DELETE:
+                return "DELETE";
+        }
+            return "unknow";
     }
     /**
      * It execute a specified request to the uri specified.
