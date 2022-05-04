@@ -158,34 +158,5 @@ public class AbHttpClient_POST_Test extends AbHttpClient_RequestDAO{
             fail("the response doesn't have the following cookies: "+expStr);
         }
     }
-//    @Test 
-//    public void test_AbHttpClient_POST_Authentication(){
-//        System.out.println("-------------------- test_AbHttpClient_POST_Authentication");
-//        int expCode = 201;
-//        AbHttpClient target = new AbHttpClient();
-//        target.setLog(LOG);
-//        target.setHost(HOST );
-//        
-//        target.setAuthiorization("alan_0", "woods_0");
-//        
-//        String result = target.post(END_POINT );
-//        
-//
-//        Map<String, String> headers = target.getResponseHeaders();
-//        List<String> list = null;
-//        if(  headers  == null ){
-//            fail("The header of the response is NULL.");
-//        }
-//        if( headers.size() < 1){
-//            fail("No headers found in the response.");
-//        }
-//
-//        //printData(target);
-//        
-//        int code = target.getStatusCode();
-//        if( code != expCode ){
-//            fail("The status code is ["+code+"] when should be ["+expCode+"]");
-//        }
-//    }
-//
+
 }

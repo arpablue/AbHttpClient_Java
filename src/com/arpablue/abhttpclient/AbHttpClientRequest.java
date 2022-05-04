@@ -49,7 +49,7 @@ public class AbHttpClientRequest extends AbHttpClientGET {
             case AbHttpClientRequest.REQUEST_DELETE:
                 return "DELETE";
         }
-            return "unknow";
+            return "UNKNOW";
     }
     /**
      * It execute a specified request to the uri specified.
@@ -91,7 +91,7 @@ public class AbHttpClientRequest extends AbHttpClientGET {
 
             return true;
         } catch (Exception e) {
-            log("ERROR: Problems to send the HTTP request. " + e.getMessage());
+            log("ERROR: Problems to send the HTTP "+AbHttpClientRequest.getRequestName(requestType)+" request. " + e.getMessage());
         }
         return false;
         

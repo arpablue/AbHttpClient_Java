@@ -99,7 +99,7 @@ public class AbHttpClient extends AbHttpClientRequest {
         this.mStatus = -1;
         this.mBody = null;
         
-        log("HTTP request to: " + uri);
+        log("HTTP "+AbHttpClientRequest.getRequestName(requestType)+" request to: " + uri);
 
         if (!request( AbHttpClientRequest.REQUEST_POST ,uri)) {
             return null;
